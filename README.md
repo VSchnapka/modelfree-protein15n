@@ -5,7 +5,7 @@ The tool is flexible enough to allow spin relaxation data fitting with a chosen 
 Typically, one can perform 1, 2, and 3 dynamic mode MF analysis and see which model is most relevant for the data.
 IMPACT analysis is also possible.
 
-## Relevant litterature:
+## Relevant litterature
 
 Lipari & Szabo, Journal of the American Chemical Society (1982);
 Halle, The Journal of chemical physics (2009);
