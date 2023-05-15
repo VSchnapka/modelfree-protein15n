@@ -7,8 +7,8 @@ IMPACT analysis is also possible.
 
 ## Relevant litterature:
 
-Lipari & Szabo, Journal of the American Chemical Society (1982)
-Halle, The Journal of chemical physics (2009)
+Lipari & Szabo, Journal of the American Chemical Society (1982);
+Halle, The Journal of chemical physics (2009);
 Khan et al., Biophysical journal (2015)
 
 # installation
