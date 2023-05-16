@@ -11,7 +11,7 @@ import modfree.ploter as ploter
 import modfree.generator as generator
 
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 
 console = Console()
