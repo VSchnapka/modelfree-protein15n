@@ -33,6 +33,7 @@ setup(
         'matplotlib',
         'rich',
         'tomli',
+        'seaborn',
     ]
     classifiers = [
         "Programming Language :: Python :: 3",
