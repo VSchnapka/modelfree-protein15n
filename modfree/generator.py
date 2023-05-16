@@ -28,6 +28,32 @@ def random_amp2(length, amp1):
     return np.array(output)
 
 
+def random_amps(length, nb, sigma=0.1):
+    outputs = [rd.uniform(0, 1) for i in range(nb)]
+    outputs = [[el/np.sum(outputs)] for el in outputs]
+    for j in range(1, length):
+        dats = [-1000 for el in outputs]
+        for i, el in enumerate(outputs):
+            while dats[i] < 0:
+                dats[i] = rd.gauss(outputs[i][j-1], sigma)
+        dats = [el/np.sum(dats) for el in dats]
+        for i, el in enumerate(outputs):
+            outputs[i].append(dats[i])
+    return outputs
+
+
+def random_taus(length, nb, sigma_scale=0.1):
+    timescales = np.logspace(-11, -7.8, nb)
+    outputs = [[rd.uniform(el-sigma_scale*el, el+sigma_scale*el)] for el in timescales]
+    for j in range(1, length):
+        dats = [-1000 for el in outputs]
+        for i, el in enumerate(outputs):
+            while dats[i] < 0 or dats[i] > 50*sigma_scale*timescales[i] or dats[i] < 0.35*sigma_scale*timescales[i]:
+                dats[i] = rd.gauss(outputs[i][j-1], sigma_scale*timescales[i])
+            outputs[i].append(dats[i])
+    return outputs
+
+
 def random_tau_50ps(length):
     output = [rd.gauss(50e-12, 5e-12)]
     for i in range(1, length):
@@ -97,6 +123,9 @@ def generate_parameter_file_std(directory_with_the_directories, fields, modes=2)
 
 
 def generate(N, output_dir, fields=(400, 600, 800, 1000, 1200), rates=('R1', 'R2', 'nOe', 'etaXY'), modes=2, noise_proportion=0.01):
+    if type(modes) is not int:
+        print("the number of dynamic modes must be an int")
+        modes = int(modes)
     RES = np.arange(1, N+1)
     print("Parameter generation...")
     if modes == 1:
@@ -112,8 +141,8 @@ def generate(N, output_dir, fields=(400, 600, 800, 1000, 1200), rates=('R1', 'R2
         amps = [a1, a2, 1-a1-a2]
         taus = [random_tau_50ps(N), random_tau_100ps(N), random_tau_ns(N)]
     else:
-        print("so far, only random data from 1, 2 or 3 dynamic modes can be generated")
-        return None
+        amps = random_amps(N, modes)
+        taus = random_taus(N, modes)
     if not os.path.isdir(output_dir):
         os.mkdir(output_dir)
     RATES, ERROR = dict(), dict()
