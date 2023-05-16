@@ -132,14 +132,10 @@ def params(modes=2, parameters=None, vary_amps=True, vary_taus=True, exchange=Fa
         params.add('Rex', value=fix['Rex'], min=0, max=50, vary=False)
     else:
         params.add('Rex', value=0, min=0, max=50, vary=exchange)
+    amps = [rd.uniform(0, 1) for i in range(modes)]
+    amps = [el/np.sum(amps) for el in amps]
     for i in range(modes):
-        term = sum(amps) if amps else 0
-        if i == modes-1:
-            #params.add('amp'+str(i+1), expr='1'+minus_amps(len(amps)), min=0, max=1, vary=vary_amps) # makes a mess
-            pass
-        else:
-            amps.append((1-term)*rd.uniform(0, 0.6))
-            params.add('amp'+str(i+1), value=amps[i], min=0, max=1, vary=vary_amps)
+        params.add('amp'+str(i+1), value=amps[i], min=0, max=1, vary=vary_amps)
         if 'tau'+str(i+1) in fix.keys():
             params.add('tau'+str(i+1), value=fix['tau'+str(i+1)], min=1e-12, max=5e-7, vary=False)
         else:
