@@ -1,9 +1,10 @@
 # modelfree-protein15n
-Simple flexible model free analysis framework for protein backbone amide 15N NMR spin relaxation rates
+Model-Free analysis framework for protein backbone amide 15N NMR spin relaxation rates.
 
-The tool is flexible enough to allow spin relaxation data fitting with a chosen number of dynamic modes and the fixing of given variables.
+This tool fits the relaxation data to a multi-Lorentzian spectral density function.
+One can choose the number of Lorentzians (dynamic modes) for the fit.
 Typically, one can perform 1, 2, and 3 dynamic mode MF analysis and see which model is most relevant for the data.
-IMPACT analysis is also possible.
+IMPACT analysis is also possible by fixing the correlation times and fitting the amplitudes.
 
 ## Relevant litterature
 
@@ -13,7 +14,7 @@ Khan et al., Biophysical journal (2015)
 
 # installation
 
-    $ python setup.py install
+    $ pip install modelfree-protein15n
 
 # usage
 
@@ -53,7 +54,7 @@ Or
 
     $ modfree fit -o Generated_fit -d Generated/directories.toml -p Generated/parameters.toml -r 15
 
-## Data fitting
+## Data plotting
 
 To plot the fitted data, just type:
 
