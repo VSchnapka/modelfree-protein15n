@@ -30,19 +30,19 @@ def run_fit(data, error, input_params, model="std"):
 
 def launch_fits(input_parameters_dic, residue, directories, model="std"):
     data_dic, error_dic = format_data(input_parameters_dic, directories, model=model)
-    if residue == "None":
+    if residue == 0:
         residue = input_parameters_dic["residues"]
     if residue == "all":
         results = dict()
-        for res in data_dic.keys():
+        for res in sorted(list(data_dic.keys())):
             print("\nresidue", res)
             try:
                 results[res] = run_fit(data_dic[res], error_dic[res], input_parameters_dic, model=model)
             except TypeError:
                 print("TypeError exception, there is probably not enough data for this residue.")
-    elif type(residue) == list:
+    elif type(residue) == list or type(residue) == tuple:
         results = dict()
-        for res in residue:
+        for res in sorted(residue):
             if res not in data_dic.keys():
                 print("\nresidue", res, "not in data")
                 continue
