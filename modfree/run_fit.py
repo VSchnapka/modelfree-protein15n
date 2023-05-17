@@ -36,7 +36,10 @@ def launch_fits(input_parameters_dic, residue, directories, model="std"):
         results = dict()
         for res in data_dic.keys():
             print("\nresidue", res)
-            results[res] = run_fit(data_dic[res], error_dic[res], input_parameters_dic, model=model)
+            try:
+                results[res] = run_fit(data_dic[res], error_dic[res], input_parameters_dic, model=model)
+            except TypeError:
+                print("TypeError exception, there is probably not enough data for this residue.")
     elif type(residue) == list:
         results = dict()
         for res in residue:
@@ -44,17 +47,23 @@ def launch_fits(input_parameters_dic, residue, directories, model="std"):
                 print("\nresidue", res, "not in data")
                 continue
             print("\nresidue", res)
-            results[res] = run_fit(data_dic[res], error_dic[res], input_parameters_dic, model=model)
+            try:
+                results[res] = run_fit(data_dic[res], error_dic[res], input_parameters_dic, model=model)
+            except TypeError:
+                print("TypeError exception, there is probably not enough data for this residue.")
     else:
+        residue = int(residue)
+        print("\nresidue", residue)
         try:
-            residue = int(residue)
-            print("\nresidue", residue)
             results = {int(residue): run_fit(data_dic[int(residue)], error_dic[int(residue)], input_parameters_dic, model=model)}
         except ValueError:
             print("something is wrong with the residues settings in the parameter file")
             return None
         except KeyError:
             print("\nresidue", residue, "is not in the data")
+            return None
+        except TypeError:
+            print("TypeError exception, there is probably not enough data for this residue.")
             return None
     return results
 
