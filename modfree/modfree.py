@@ -11,7 +11,7 @@ import modfree.ploter as ploter
 import modfree.generator as generator
 
 
-__version__ = "0.0.4"
+__version__ = "0.0.5"
 
 
 console = Console()
@@ -81,7 +81,7 @@ def build_parser():
     fit_parser.add_argument('-o', type=str, help="output directory", default="Outputs")
     fit_parser.add_argument('-d', type=str, help="directory file. toml file. contains the directories and the corresponding conditions", default="directories.toml")
     fit_parser.add_argument('-p', type=str, help="parameter file. toml file", default="params.toml")
-    fit_parser.add_argument('-r', type=str, help="residue to analyse. can be 'all' or a number corresponding to the residue number.", default="None")
+    fit_parser.add_argument('-r', type=int, nargs="+", help="Residue(s) to analyse. By default, the program reads the parameter file.", default=0)
     fit_parser.add_argument('-m', type=str, help="fitting model: standard (std), arrhenius (arrh), viscosity (visc), arrhenius-viscosity (arvi).", default="std")
     fit_parser.add_argument('-plot', type=bool, help="plot the output", default=False)
     
