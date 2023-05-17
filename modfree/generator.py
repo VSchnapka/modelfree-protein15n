@@ -161,13 +161,13 @@ def generate(N, output_dir, fields=(400, 600, 800, 1000, 1200), rates=('R1', 'R2
     #[f][e][r]
     print("Data formating and saving...")
     for f in RATES.keys():
-        if not os.path.isdir(output_dir+"/"+str(f)+"MHz"):
-            os.mkdir(output_dir+"/"+str(f)+"MHz")
+        if not os.path.isdir(output_dir+"/"+str(int(f))+"MHz"):
+            os.mkdir(output_dir+"/"+str(int(f))+"MHz")
         for e in RATES[f].keys():
             x = RES
             y = [RATES[f][e][r] for r in x]
             dy = [ERROR[f][e][r] for r in x]
-            outputs.save_param(x, y, dy=dy, outputname=output_dir+"/"+str(f)+"MHz/generated_"+str(e)+".txt")
+            outputs.save_param(x, y, dy=dy, outputname=output_dir+"/"+str(int(f))+"MHz/generated_"+str(e)+".txt")
     print("Data directory input generation...")
     generate_directories_file_std(output_dir)
     generate_parameter_file_std(output_dir, list(RATES.keys()), modes=modes)
