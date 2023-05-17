@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import glob
 import os
+import re
 from modfree.inputs import read_relaxation_data_file
 
 
@@ -23,7 +24,7 @@ def check_output_dir(output_dir):
         os.mkdir(output_dir+"/Plots")
 
 
-def plot_param(filename, plotname=None, color="darkblue", ax=None, log=False, file_format="pdf", dpi=600):
+def plot_param(filename, color="darkblue", ax=None, log=False):
     with open(filename, "r") as f:
         dat = [el.rstrip("\n").split() for el in f.readlines()]
     x = [int(el[0]) for el in dat]
@@ -43,29 +44,25 @@ def plot_param(filename, plotname=None, color="darkblue", ax=None, log=False, fi
     ax.set_xlabel("Sequence")
     ax.set_ylabel(filename.split("/")[-1].replace(".out", ""))
     ax.set_ylim(0.8*np.min(y), 1.2*np.max(y))
-    #if plotname is not None:
-    #    plt.savefig(output_dir+"/"+plotname, format=file_format, dpi=dpi)
 
 
-def plot_params_std(output_dir, plotname, file_format="pdf", dpi=600):
+def plot_params_std(output_dir, file_format="pdf", dpi=600):
     check_output_dir(output_dir)
-    fig, ax = plt.subplots(3, 2, figsize=(16, 10))
-    plot_param(output_dir+"/amp1.out", None, "darkblue", ax[0][0])
-    plot_param(output_dir+"/amp2.out", None, "darkblue", ax[1][0])
-    plot_param(output_dir+"/amp3.out", None, "darkblue", ax[2][0])
-    plot_param(output_dir+"/tau1.out", None, "darkblue", ax[0][1], log=True)
-    plot_param(output_dir+"/tau2.out", None, "darkblue", ax[1][1], log=True)
-    plot_param(output_dir+"/tau3.out", None, "darkblue", ax[2][1], log=True)
-    plt.savefig(output_dir+"/Plots/"+plotname, format=file_format, dpi=dpi)
-    plt.close()
+    param_files = glob.glob(output_dir+"/*.out")
+    for el in param_files:
+        log = True if re.search("tau", el) else False
+        fig, ax = plt.subplots(1, 1, figsize=(8, 5))
+        plot_param(el, ax=ax, log=log, color="darkblue")
+        plt.savefig(output_dir+"/Plots/"+el.split("/")[-1].replace(".out", "."+file_format), format=file_format, dpi=dpi)
+        plt.close()
     
 
 def plot_statistics_std(output_dir, plotname, file_format="pdf", dpi=600):
     check_output_dir(output_dir)
     fig, ax = plt.subplots(3, 1, figsize=(8, 10))
-    plot_param(output_dir+"/redchi2.out", None, "darkblue", ax[0], log=True)
-    plot_param(output_dir+"/aic.out", None, "darkblue", ax[1])
-    plot_param(output_dir+"/bic.out", None, "darkblue", ax[2])
+    plot_param(output_dir+"/redchi2.out", color="darkblue", ax=ax[0], log=True)
+    plot_param(output_dir+"/aic.out", color="darkblue", ax=ax[1])
+    plot_param(output_dir+"/bic.out", color="darkblue", ax=ax[2])
     plt.savefig(output_dir+"/Plots/"+plotname, format=file_format, dpi=dpi)
     plt.close()
     
@@ -103,12 +100,3 @@ def plot_rates_std(output_dir, file_format="pdf", dpi=600):
         ax.legend(frameon=False)
         plt.savefig(output_dir+"/Plots/"+rdir.split("/")[-1].replace("exp", str(file_format)), format=file_format, dpi=dpi)
         plt.close()
-    
-    
-def plot_monte_carlo(output_dir, plotname, file_format="pdf", dpi=600):
-    # Chi2 distributions, parameter correlations (maybe its own plot function)
-    print("to be implemented")
-
-
-if __name__ == "__main__":
-    print("this is the plot module")
