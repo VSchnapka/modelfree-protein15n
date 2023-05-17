@@ -29,7 +29,7 @@ def save_params(result_dic, directory, model="std"):
     #values = df.swap(values, 2, 3) # values[res][amps/taus][0,1,2,...]
     errors = df.swap(result_dic, 1, 2)['error']
     #errors = df.swap(errors, 2, 3)
-    X = [res for res in values.keys()]
+    X = sorted([res for res in values.keys()])
     # residue specific monte carlo results
     if not os.path.isdir(directory+"Monte_Carlo"):
         os.mkdir(directory+"Monte_Carlo")
