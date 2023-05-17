@@ -11,7 +11,7 @@ import modfree.ploter as ploter
 import modfree.generator as generator
 
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 
 console = Console()
@@ -99,7 +99,7 @@ def build_parser():
     gen_parser.add_argument('-n', type=int, help="number of residues in the fake data", default=100)
     gen_parser.add_argument('-noise', type=float, help="proportion of noise in the data. default is 3% (0.03)", default=0.03)
     gen_parser.add_argument('-fields', type=float, nargs="+", help="magnetic fields for the generated relaxation rates in MHz", default=(400,600,800,1000,1200))
-    gen_parser.add_argument('-rates', type=float, nargs="+", help="relaxation rates to generate", default=("R1", "R2", "NOE", "etaXY"))
+    gen_parser.add_argument('-rates', type=str, nargs="+", help="relaxation rates to generate", default=("R1", "R2", "NOE", "etaXY"))
     
     return parser
 
