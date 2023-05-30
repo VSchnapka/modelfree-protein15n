@@ -1,10 +1,10 @@
 # modelfree-protein15n
 Model-Free analysis framework for protein backbone amide 15N NMR spin relaxation rates.
 
-This tool fits the relaxation data to a multi-Lorentzian spectral density function.
+This command line based tool fits NMR relaxation data to a multi-Lorentzian spectral density function.
 One can choose the number of Lorentzians (dynamic modes) for the fit.
 Typically, one can perform 1, 2, and 3 dynamic mode MF analysis and see which model is most relevant for the data.
-IMPACT analysis is also possible by fixing the correlation times and fitting the amplitudes.
+IMPACT analysis is also possible by fixing the chosen correlation times and fitting the amplitudes.
 
 ## Relevant litterature
 
@@ -15,6 +15,20 @@ Khan et al., Biophysical journal (2015)
 # installation
 
     $ pip install modelfree-protein15n
+
+You can create another environment for this tool if you python version is not compatible. 
+If you have Anaconda for instance, you can run the following:
+
+    $ conda create -n modfree python=3.9
+
+To activate the environment with your terminal, run:
+
+    $ conda activate modfree
+
+You can then install and use the tool with the pip command in this environment.
+To deactivate the environment, simply run:
+
+    $ conda deactivate
 
 # usage
 
@@ -48,7 +62,7 @@ To fit relaxation data, you will need your data in a specific format akin to the
     
 You can also fit only part of the data with the flag -r:
 
-    $ modfree fit -o Generated_fit -d Generated/directories.toml -p Generated/parameters.toml -r [10, 11, 12, 13, 14, 15, 16]
+    $ modfree fit -o Generated_fit -d Generated/directories.toml -p Generated/parameters.toml -r 10 11 12 13 14 15 16 17
     
 Or
 
@@ -65,11 +79,3 @@ The following flags are available:
 -p: What to plot (all, relaxation, parameters, statistics, correlation)
 -format: Format of the plot files (pdf, png, jpg, svg...)
 -dpi (600 by default)
-
-
-
-
-
-
-
-    
