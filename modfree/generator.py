@@ -5,7 +5,7 @@ import random as rd
 import numpy as np
 import modfree.data_format as df
 import modfree.outputs as outputs
-from modfree.mf_standard import give_params, calc_rates
+from modfree.mf import give_params, calc_rates
 
 
 def random_amp1(length):
@@ -94,7 +94,7 @@ def random_tumb_ns(length):
     return output
 
 
-def generate_directories_file_std(directory_with_the_directories):
+def generate_directories_file(directory_with_the_directories):
     current_path = os.path.abspath(".")
     dirs = glob.glob(directory_with_the_directories+"/*/")
     with open(directory_with_the_directories+"/directories.toml", "w") as f:
@@ -106,12 +106,11 @@ def generate_directories_file_std(directory_with_the_directories):
             f.write("\n")
             
             
-def generate_parameter_file_std(directory_with_the_directories, fields, modes=2):
+def generate_parameter_file(directory_with_the_directories, fields, modes=2):
     with open(directory_with_the_directories+"/parameters.toml", "w") as f:
-        f.write("# model free analysis parameter file. model choice: standard only so far\n")
+        f.write("# model free analysis parameter file.\n")
         f.write(f"modes = {modes}\n")
         f.write(f"residues = \"all\"\n\n")
-        f.write(f"# model dependent input parameters\n")
         f.write(f"magnetic_fields_MHz = {fields}\n\n")
         f.write(f"# parameters to fix: (taux, ampx, (x an integer that has to be compatible with the number of dynamic modes. Starts from 1.))\n")
         f.write(f"#tau1 = 50e-12\n\n")
@@ -126,6 +125,8 @@ def generate(N, output_dir, fields=(400, 600, 800, 1000, 1200), rates=('R1', 'R2
     if type(modes) is not int:
         print("the number of dynamic modes must be an int")
         modes = int(modes)
+    if type(fields) is int or type(fields) is float:
+        fields = [fields]
     RES = np.arange(1, N+1)
     print("Parameter generation...")
     if modes == 1:
@@ -169,8 +170,8 @@ def generate(N, output_dir, fields=(400, 600, 800, 1000, 1200), rates=('R1', 'R2
             dy = [ERROR[f][e][r] for r in x]
             outputs.save_param(x, y, dy=dy, outputname=output_dir+"/"+str(int(f))+"MHz/generated_"+str(e)+".txt")
     print("Data directory input generation...")
-    generate_directories_file_std(output_dir)
-    generate_parameter_file_std(output_dir, list(RATES.keys()), modes=modes)
+    generate_directories_file(output_dir)
+    generate_parameter_file(output_dir, list(RATES.keys()), modes=modes)
 
 
 if __name__ == "__main__":
