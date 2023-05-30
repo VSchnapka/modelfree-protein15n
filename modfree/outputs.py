@@ -16,11 +16,8 @@ def save_param(x, y=None, dy=None, outputname="test.txt"):
                 f.write(str(res)+"  "+str(y[i])+"  "+str(dy[i])+"\n")
 
 
-def save_params(result_dic, directory, model="std"):
+def save_params(result_dic, directory):
     #print(result_dic)
-    if model != "std":
-        print("other models not implemented so far in save_params")
-        return None
     if not os.path.isdir(directory):
         os.mkdir(directory)
     if directory[-1] != "/":
@@ -45,7 +42,7 @@ def save_params(result_dic, directory, model="std"):
         os.mkdir(directory+"Relaxation_Rates/")
     rates = {"fit": dict(), "exp": dict(), "err": dict(), "fiterr": dict()}
     for res in X:
-        exp_rates, err_rates, fit_rates, fit_error = analysis.calc_rates_result(result_dic[res], model=model)
+        exp_rates, err_rates, fit_rates, fit_error = analysis.calc_rates_result(result_dic[res])
         rates["fit"][res] = fit_rates
         rates["fiterr"][res] = fit_error
         rates["exp"][res] = exp_rates
