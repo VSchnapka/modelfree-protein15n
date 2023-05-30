@@ -11,7 +11,7 @@ import modfree.ploter as ploter
 import modfree.generator as generator
 
 
-__version__ = "0.0.5"
+__version__ = "0.0.6"
 
 
 console = Console()
@@ -45,26 +45,26 @@ def plot(args: Namespace):
     data_file = args.o
     what_to_plot = args.p
     if what_to_plot == "relaxation" or what_to_plot == "all":
-        ploter.plot_rates_std(output_dir=data_file, file_format=args.format, dpi=args.dpi)
+        ploter.plot_rates(output_dir=data_file, file_format=args.format, dpi=args.dpi)
     if what_to_plot == "parameters" or what_to_plot == "all":
-        ploter.plot_params_std(output_dir=data_file, plotname="parameters."+str(args.format), file_format=args.format, dpi=args.dpi)
+        ploter.plot_params(output_dir=data_file, plotname="parameters."+str(args.format), file_format=args.format, dpi=args.dpi)
     if what_to_plot == "statistics" or what_to_plot == "all":
-        ploter.plot_statistics_std(output_dir=data_file, plotname="statistics."+str(args.format), file_format=args.format, dpi=args.dpi)
+        ploter.plot_statistics(output_dir=data_file, plotname="statistics."+str(args.format), file_format=args.format, dpi=args.dpi)
     if what_to_plot == "correlation" or what_to_plot == "all":
-        ploter.plot_rates_corr_std(output_dir=data_file, plotname="correlation."+str(args.format), file_format=args.format, dpi=args.dpi)
+        ploter.plot_rates_corr(output_dir=data_file, plotname="correlation."+str(args.format), file_format=args.format, dpi=args.dpi)
 
 
 def fit(args: Namespace):
-    data_files = inputs.read_directory_file(args.d, args.m)
-    input_parameters = inputs.read_parameter_file(args.p, args.m)
-    result = run_fit.launch_fits(input_parameters, args.r, data_files, model=args.m)
+    data_files = inputs.read_directory_file(args.d)
+    input_parameters = inputs.read_parameter_file(args.p)
+    result = run_fit.launch_fits(input_parameters, args.r, data_files)
     outputs.save_params(result, directory=args.o)
     df.Save(result, args.o+"/rawoutput.txt")
     if args.plot:
-        ploter.plot_params_std(output_dir=data_file, plotname="parameters."+str(args.format), file_format=args.format, dpi=args.dpi)
-        ploter.plot_statistics_std(output_dir=data_file, plotname="statistics."+str(args.format), file_format=args.format, dpi=args.dpi)
-        ploter.plot_rates_corr_std(output_dir=data_file, plotname="correlation."+str(args.format), file_format=args.format, dpi=args.dpi)
-        ploter.plot_rates_std(output_dir=data_file, file_format=args.format, dpi=args.dpi)
+        ploter.plot_params(output_dir=data_file, plotname="parameters."+str(args.format), file_format=args.format, dpi=args.dpi)
+        ploter.plot_statistics(output_dir=data_file, plotname="statistics."+str(args.format), file_format=args.format, dpi=args.dpi)
+        ploter.plot_rates_corr(output_dir=data_file, plotname="correlation."+str(args.format), file_format=args.format, dpi=args.dpi)
+        ploter.plot_rates(output_dir=data_file, file_format=args.format, dpi=args.dpi)
 
 
 def generate(args: Namespace):
@@ -82,7 +82,6 @@ def build_parser():
     fit_parser.add_argument('-d', type=str, help="directory file. toml file. contains the directories and the corresponding conditions", default="directories.toml")
     fit_parser.add_argument('-p', type=str, help="parameter file. toml file", default="params.toml")
     fit_parser.add_argument('-r', type=int, nargs="+", help="Residue(s) to analyse. By default, the program reads the parameter file.", default=0)
-    fit_parser.add_argument('-m', type=str, help="fitting model: standard (std), arrhenius (arrh), viscosity (visc), arrhenius-viscosity (arvi).", default="std")
     fit_parser.add_argument('-plot', type=bool, help="plot the output", default=False)
     
     plot_parser = subparsers.add_parser("plot", help="Plot the data")
