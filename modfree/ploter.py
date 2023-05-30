@@ -46,7 +46,7 @@ def plot_param(filename, color="darkblue", ax=None, log=False):
     ax.set_ylim(0.8*np.min(y), 1.2*np.max(y))
 
 
-def plot_params_std(output_dir, file_format="pdf", dpi=600):
+def plot_params(output_dir, file_format="pdf", dpi=600):
     check_output_dir(output_dir)
     param_files = glob.glob(output_dir+"/*.out")
     for el in param_files:
@@ -57,7 +57,7 @@ def plot_params_std(output_dir, file_format="pdf", dpi=600):
         plt.close()
     
 
-def plot_statistics_std(output_dir, plotname, file_format="pdf", dpi=600):
+def plot_statistics(output_dir, plotname, file_format="pdf", dpi=600):
     check_output_dir(output_dir)
     fig, ax = plt.subplots(3, 1, figsize=(8, 10))
     plot_param(output_dir+"/redchi2.out", color="darkblue", ax=ax[0], log=True)
@@ -67,7 +67,7 @@ def plot_statistics_std(output_dir, plotname, file_format="pdf", dpi=600):
     plt.close()
     
     
-def plot_rates_corr_std(output_dir, plotname, file_format="pdf", dpi=600):
+def plot_rates_corr(output_dir, plotname, file_format="pdf", dpi=600):
     check_output_dir(output_dir)
     rates_fit_dirs = sorted(glob.glob(output_dir+"/Relaxation_Rates/*.fit"))
     rates_exp_dirs = sorted(glob.glob(output_dir+"/Relaxation_Rates/*.exp"))
@@ -83,7 +83,7 @@ def plot_rates_corr_std(output_dir, plotname, file_format="pdf", dpi=600):
     plt.close()
 
 
-def plot_rates_std(output_dir, file_format="pdf", dpi=600):
+def plot_rates(output_dir, file_format="pdf", dpi=600):
     check_output_dir(output_dir)
     rates_fit_dirs = sorted(glob.glob(output_dir+"/Relaxation_Rates/*.fit"))
     rates_exp_dirs = sorted(glob.glob(output_dir+"/Relaxation_Rates/*.exp"))
