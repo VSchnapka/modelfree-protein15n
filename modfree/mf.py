@@ -58,8 +58,9 @@ def NOE(x, amps, taus):
     return 1.0 + (d**2)/(10*R1(x, amps, taus)) * (gamma1H/gamma15N)*(6*J(omega_sum)-J(omega_diff))
 
 
-def etaXY(x, amps, taus):
+def etaXY(x, amps, taus, theta=22):
     def J(omega): return j(omega, amps, taus)
+    theta = theta*np.pi/180 # in rad.
     field = x * 1e6 / (gamma1H/(2*np.pi))
     omegaN = gamma15N * field
     omegaH = gamma1H * field
@@ -69,8 +70,9 @@ def etaXY(x, amps, taus):
     return -(1/15)*d*c*P2(np.cos(theta))*(3*J(omegaN) + 4*J(0))
 
 
-def etaZ(x, amps, taus):
+def etaZ(x, amps, taus, theta=22):
     def J(omega): return j(omega, amps, taus)
+    theta = theta*np.pi/180 # in rad.
     field = x * 1e6 / (gamma1H/(2*np.pi))
     omegaN = gamma15N * field
     omegaH = gamma1H * field
