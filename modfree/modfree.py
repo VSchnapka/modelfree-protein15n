@@ -11,7 +11,7 @@ import modfree.ploter as ploter
 import modfree.generator as generator
 
 
-__version__ = "0.0.6"
+__version__ = "0.0.7"
 
 
 console = Console()
@@ -47,7 +47,7 @@ def plot(args: Namespace):
     if what_to_plot == "relaxation" or what_to_plot == "all":
         ploter.plot_rates(output_dir=data_file, file_format=args.format, dpi=args.dpi)
     if what_to_plot == "parameters" or what_to_plot == "all":
-        ploter.plot_params(output_dir=data_file, plotname="parameters."+str(args.format), file_format=args.format, dpi=args.dpi)
+        ploter.plot_params(output_dir=data_file, file_format=args.format, dpi=args.dpi)
     if what_to_plot == "statistics" or what_to_plot == "all":
         ploter.plot_statistics(output_dir=data_file, plotname="statistics."+str(args.format), file_format=args.format, dpi=args.dpi)
     if what_to_plot == "correlation" or what_to_plot == "all":
@@ -61,7 +61,7 @@ def fit(args: Namespace):
     outputs.save_params(result, directory=args.o)
     df.Save(result, args.o+"/rawoutput.txt")
     if args.plot:
-        ploter.plot_params(output_dir=data_file, plotname="parameters."+str(args.format), file_format=args.format, dpi=args.dpi)
+        ploter.plot_params(output_dir=data_file, file_format=args.format, dpi=args.dpi)
         ploter.plot_statistics(output_dir=data_file, plotname="statistics."+str(args.format), file_format=args.format, dpi=args.dpi)
         ploter.plot_rates_corr(output_dir=data_file, plotname="correlation."+str(args.format), file_format=args.format, dpi=args.dpi)
         ploter.plot_rates(output_dir=data_file, file_format=args.format, dpi=args.dpi)
